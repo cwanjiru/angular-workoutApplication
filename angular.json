@@ -120,5 +120,14 @@
         }
       }
     }},
-  "defaultProject": "Trainer"
+  "defaultProject": "Trainer",
+  "schematics": {
+    "@schematics/angular:component":{
+      "prefix":"abe",
+      "styleext":"css"
+    },
+    "@schematics/angular:directive":{
+      "prefix":"abe"
+    }
+  }
 }
