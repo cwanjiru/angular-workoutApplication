@@ -1,1 +1,32 @@
-<p>workout-runner works!</p>
+<div class="row pt-4">
+    
+    <div id="description-panel" class="col-sm-3">
+        <abe-exercise-description 
+            [description]="currentExercise.exercise.description"
+            [steps]="currentExercise.exercise.procedures"
+        ></abe-exercise-description>
+    </div>
+
+    
+    <div id="exercise-pane" class="col-sm-6">
+        
+        <!-- <div id="exercise-pane"></div> -->
+        <h1  [style.color]="'blue'" class="text-center">{{currentExercise.exercise.title}}</h1>
+        <div class="image-container row">
+            <img class="img-fluid col-sm" [src]="'/assets/images/' + currentExercise.exercise.image" />
+        </div>
+        <div class="progress time-progress row">
+            <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="exerciseRunningDuration"
+                aria-valuemin="0" [attr.aria-valuemax]="currentExercise.duration"
+                [ngStyle]="{'width':(exerciseRunningDuration/currentExercise.duration) * 100 + '%'}">
+            </div>
+        </div>
+        <h1 >Time Remaining: {{currentExercise.duration-exerciseRunningDuration}}</h1>
+    </div>
+    <div id="video-panel" class="col-sm-3">
+        <abe-video-player [videos]="currentExercise.exercise.videos"></abe-video-player>
+    </div>
+
+</div>
+
+
