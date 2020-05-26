@@ -9,7 +9,8 @@ import { SafeResourceUrl, DomSanitizer }  from '@angular/platform-browser';
 })
 export class VideoPlayerComponent implements OnInit,OnChanges {
   private youtubeUrlPrefix='//www.youtube.com/embed/';
-
+  // title:string='<script>console.log("school")</script>';
+  title:string='<div><style>.firstItem{color:"green"}</style><p class="firstItem">Im a paragraph</p></div>';
   
   @Input() videos:Array<string>;
   safeVideoUrls:Array<SafeResourceUrl>;
@@ -27,6 +28,7 @@ export class VideoPlayerComponent implements OnInit,OnChanges {
 
 
   ngOnInit(): void {
+   
   }
 
 }
