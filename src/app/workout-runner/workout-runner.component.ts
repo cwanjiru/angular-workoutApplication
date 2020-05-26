@@ -287,7 +287,7 @@ workout.exercises.push(
       'A variation of pushup that requires you to rotate.',
       'pushupNRotate.png',
       'pushupandrotate.wav',
-      `<ol></li>Assume the classic pushup position, but as you come up, rotate your body so your right arm lifts up and extends overhead.</li>
+      `<ol><li>Assume the classic pushup position, but as you come up, rotate your body so your right arm lifts up and extends overhead.</li>
      <li>Return to the starting position, lower yourself, then push up and rotate till your left hand points toward the ceiling.</li></ol>`,
       ['qHQ_E-f5278']),
     30));
