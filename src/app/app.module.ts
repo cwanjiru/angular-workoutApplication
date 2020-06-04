@@ -4,12 +4,15 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WorkoutRunnerModule } from './workout-runner/workout-runner.module';
-import { SecondsToTimePipe } from './shared/seconds-to-time.pipe';
+import { StartComponent } from './start/start.component';
+import { FinishComponent } from './finish/finish.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    SecondsToTimePipe
+    StartComponent,
+    FinishComponent,
   ],
   imports: [
     BrowserModule,

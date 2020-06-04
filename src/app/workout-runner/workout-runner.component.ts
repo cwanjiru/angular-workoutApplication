@@ -13,6 +13,8 @@ export class WorkoutRunnerComponent implements OnInit {
   currentExerciseIndex:number;
   currentExercise:ExercisePlan;
   exerciseRunningDuration:number;
+  exerciseTrackingInterval:number;
+  workoutPaused:boolean;
 
 
   constructor() { }
@@ -30,80 +32,70 @@ export class WorkoutRunnerComponent implements OnInit {
     return {'color':'red','font-size':'smaller'}
   }
 
+  pause=()=>{
+    clearInterval(this.exerciseTrackingInterval);
+    this.workoutPaused=true;
+  }
+
+  resume=()=>{
+    this.startExerciseTimeTracking();
+    this.workoutPaused=false;
+  }
+
+  pauseResumeToggle=()=>{
+    if (this.workoutPaused){
+      this.resume();
+    }
+    else{
+      this.pause();
+    }
+  }
+
+  doSomething=(event)=>{
+    event.stopPropagation()
+    console.log('i have been clicked')
+    console.log('element that has been clicked ',event.target)
+    
+  }
+  onKeyPressed=(event:KeyboardEvent)=>{
+    if(event.which===80 || event.which===112){
+      this.pauseResumeToggle();
+    }
+  }
   start() {
     this.workoutTimeRemaining = this.workoutPlan.totalWorkoutDuration();
     this.currentExerciseIndex = 0;
     this.startExercise(this.workoutPlan.exercises[this.currentExerciseIndex]);
   }
-//x = ['Joging','Wall sit' ]
-// x[0], x[1]
-/***
- * A = 40 (duration)
- * b = 40(duration)
- * c = 40(duration)
- * Total time = 120 (workoutTimeRemaining)
- * 
- * duration
- * 
- * Case 1:
- * Began A 
- * ---> exerciseRunningDuration = 10minutes
- * i) Time left to compete this episode = 40 -10 = 30 
- * ii( workoutTimeRemaining = 120)
- * Finished A
- * --> exerciseRunningDuration = 40
- * workoutTimeRemaining = 120 - 40 = 80
- * 
- * Begun B
- * ---> watched for 30 Minutes:
- * i) workoutTimeRemaining = 80
- * ii) exerciseRunningDuration = 30
- * 
- * Finished
- * i) exerciseRunningDuration = 40
- * ii) 80 - 40 = 40 (workoutTimeRemaining)
- * 
- * 
- * Begun c
- * exerciseRunningDuration = 0
- * 
- * ---> watched for 15 minute
- * i) exerciseRunningDuration = 15
- * ii) workoutTimeRemaining = 40
- * 
- * Finished
- * i) exerciseRunningDuration = 40
- * ii) workoutTimeRemaining = 40 - 40 = 0 (We have finoshed the series)
- * 
- */
 
   
   startExercise=(exercisePlan:ExercisePlan)=>{
     this.currentExercise=exercisePlan;
     this.exerciseRunningDuration=0;
-    const intervalId=setInterval(() =>{
-      if (this.exerciseRunningDuration >= this.currentExercise.duration){
-        clearInterval(intervalId);
-        this.exerciseRunningDuration=0;
-        const next:ExercisePlan=this.getNextExercise();
-        if (next){
-          if(next !==this.restExercise){
-            this.currentExerciseIndex++;
-            
-          }
-          this.startExercise(next);
-        }
-
-        else{
-          console.log('workout completed')
-        }
-      }
-
-      else{
-        this.exerciseRunningDuration++
-      }
-    },1000)
+    this.startExerciseTimeTracking();
   }
+
+ startExerciseTimeTracking=()=>{
+   this.exerciseTrackingInterval=window.setInterval(()=>{
+     if (this.exerciseRunningDuration >= this.currentExercise.duration){
+       clearInterval(this.exerciseTrackingInterval);
+       const next:ExercisePlan=this.getNextExercise();
+       if(next){
+         if(next !== this.restExercise){
+           this.currentExerciseIndex++;
+         }
+         this.startExercise(next);
+       }
+
+       else{
+         console.log('Workout complete');
+       }
+       return; 
+     }
+     ++this.exerciseRunningDuration; 
+     --this.workoutTimeRemaining;
+   }, 1000)
+ }
 
   getNextExercise=(): ExercisePlan =>{
     let nextExercise:ExercisePlan=null;

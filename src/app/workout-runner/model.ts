@@ -8,7 +8,7 @@ export class WorkoutPlan {
   ) {}
 
   totalWorkoutDuration = (): number => {
-    if (this.exercises) {
+    if ( !this.exercises) {
       return 0;
     }
 
