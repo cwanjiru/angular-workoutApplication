@@ -1,0 +1,59 @@
+<div class="row pt-4">
+    
+    <div id="description-panel" class="col-sm-3">
+        <abe-exercise-description 
+            [description]="currentExercise.exercise.description"
+            [steps]="currentExercise.exercise.procedures"
+        ></abe-exercise-description>
+    </div>
+
+    
+    <div id="exercise-pane" class="col-sm-6">
+        <div id="pause-overlay" (click)="pauseResumeToggle()" (window:keyup)="onKeyPressed($event)" >
+              <span class="pause absolute-center" [ngClass]="{'ion-md-pause': workoutPaused==false, 'ion-md-play':workoutPaused==true}"></span>
+        </div>
+        <!-- <div id="exercise-pane"></div> -->
+        <h4 class="text center">WorkOut Remaining - {{workoutTimeRemaining | secondsToTime}}</h4>
+        <!-- <h1  [style.color]="'blue'" class="text-center">{{currentExercise.exercise.title}}</h1> -->
+        <div [ngSwitch]="currentExercise.exercise.name">
+            <h1 *ngSwitchCase="'jumpingJacks'" [style.color]="'red'" class="text-center">{{currentExercise.exercise.title}}</h1>
+         <!-- if it is jumpingJacks -->
+            <h1 *ngSwitchCase="'wallSit'" [style.color]="'green'" class="text-center">{{currentExercise.exercise.title}}</h1>
+         <h1 *ngSwitchDefault>{{currentExercise.exercise.title}}</h1>
+
+        </div>
+        
+
+        <div class="image-container row">
+            <img class="img-fluid col-sm" [src]="'/assets/images/' + currentExercise.exercise.image" />
+        </div>
+        <div class="progress time-progress row">
+            <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="exerciseRunningDuration"
+                aria-valuemin="0" [attr.aria-valuemax]="currentExercise.duration"
+                [ngStyle]="{'width':(exerciseRunningDuration/currentExercise.duration) * 100 + '%'}">
+            </div>
+        </div>
+        <div class="row">
+            <h4 class="col-sm-6 text-left">Time Remaining
+                <b>{{currentExercise.duration-exerciseRunningDuration}}</b>
+            </h4>
+            <h4 *ngIf='currentExercise.exercise.name=="rest"; else child;' class="col-sm-6 text-right">Next 
+                <b>{{workoutPlan.exercises[currentExerciseIndex + 1].exercise.title}}</b>
+            </h4>
+            <ng-template #child>
+                <span class="col-sm-6 text-right">Go drink water</span>
+            </ng-template>
+            
+
+        </div>
+    </div>
+    <div id="video-panel" class="col-sm-3">
+        <abe-video-player [videos]="currentExercise.exercise.videos"></abe-video-player>
+    </div>
+
+</div>
+
+<h1 [style.display]="'none'">Good morning</h1>
+<div (click)="doSomething($event)" id="parent">I am parent
+    <div id="child">I am child</div>
+</div>
