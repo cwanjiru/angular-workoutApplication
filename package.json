@@ -19,7 +19,7 @@
     "@angular/platform-browser": "~9.1.0",
     "@angular/platform-browser-dynamic": "~9.1.0",
     "@angular/router": "~9.1.0",
-    "@angular/service-worker": "~9.1.0",
+    "@angular/service-worker": "^9.1.10",
     "bootstrap": "^4.4.1",
     "ionicons": "^3.0.0",
     "rxjs": "~6.5.4",
