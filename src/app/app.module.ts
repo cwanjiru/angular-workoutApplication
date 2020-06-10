@@ -7,6 +7,8 @@ import { WorkoutRunnerModule } from './workout-runner/workout-runner.module';
 import { StartComponent } from './start/start.component';
 import { FinishComponent } from './finish/finish.component';
 import { CoreModule } from './core/core.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { CoreModule } from './core/core.module';
     BrowserModule,
     AppRoutingModule,
     WorkoutRunnerModule,
-    CoreModule
+    CoreModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
