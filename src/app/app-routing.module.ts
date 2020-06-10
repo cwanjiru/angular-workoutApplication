@@ -8,11 +8,11 @@ const routes: Routes = [
   {path: 'start', component: StartComponent },
   {path: 'finish', component: FinishComponent},
   {path: 'workout', component:WorkoutRunnerComponent},
-  {path: '**', redirectTo: '/start'},
+  // {path: '**', redirectTo: '/start'},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {enableTracing:true, })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
