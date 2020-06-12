@@ -7,6 +7,7 @@ import { WorkoutHistoryTrackerService } from '../core/workout-history-tracker.se
   selector: 'abe-workout-runner',
   templateUrl: './workout-runner.component.html',
   styles: [],
+  
 })
 
 export class WorkoutRunnerComponent implements OnInit, OnDestroy {
