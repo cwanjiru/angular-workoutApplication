@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkoutPlan, ExercisePlan, Exercise } from './model';
 import { Router} from '@angular/router';
+import { WorkoutHistoryTrackerService } from '../core/workout-history-tracker.service';
+
 @Component({
   selector: 'abe-workout-runner',
   templateUrl: './workout-runner.component.html',
   styles: [],
 })
-export class WorkoutRunnerComponent implements OnInit {
+
+export class WorkoutRunnerComponent implements OnInit, OnDestroy {
   workoutPlan:WorkoutPlan;
   restExercise:ExercisePlan;
   workoutTimeRemaining:number;
@@ -17,7 +20,12 @@ export class WorkoutRunnerComponent implements OnInit {
   workoutPaused:boolean;
 
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,
+    private workoutHistoryTrackerService: WorkoutHistoryTrackerService) { }
+
+  ngOnDestroy():void{
+    this.workoutHistoryTrackerService.endTracking(false);
+  }
 
   ngOnInit(): void {
     this.workoutPlan=this.buildWorkout();
@@ -63,6 +71,7 @@ export class WorkoutRunnerComponent implements OnInit {
     }
   }
   start() {
+    this.workoutHistoryTrackerService.startTracking();
     this.workoutTimeRemaining = this.workoutPlan.totalWorkoutDuration();
     this.currentExerciseIndex = 0;
     this.startExercise(this.workoutPlan.exercises[this.currentExerciseIndex]);
@@ -79,6 +88,9 @@ export class WorkoutRunnerComponent implements OnInit {
    this.exerciseTrackingInterval=window.setInterval(()=>{
      if (this.exerciseRunningDuration >= this.currentExercise.duration){
        clearInterval(this.exerciseTrackingInterval);
+       if (this.currentExercise !== this.restExercise) {
+         this.workoutHistoryTrackerService.exerciseComplete(this.workoutPlan.exercises[this.currentExerciseIndex]);
+       }
        const next:ExercisePlan=this.getNextExercise();
        if(next){
          if(next !== this.restExercise){
@@ -88,6 +100,7 @@ export class WorkoutRunnerComponent implements OnInit {
        }
 
        else{
+            this.workoutHistoryTrackerService.endTracking(true)
             this.router.navigate(['/finish']);
        };
        return; 
