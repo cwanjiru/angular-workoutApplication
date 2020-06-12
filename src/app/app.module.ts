@@ -9,6 +9,7 @@ import { FinishComponent } from './finish/finish.component';
 import { CoreModule } from './core/core.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { WorkoutHistoryComponent } from './workout-history/workout-history.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { environment } from '../environments/environment';
     AppComponent,
     StartComponent,
     FinishComponent,
+    WorkoutHistoryComponent,
   ],
   imports: [
     BrowserModule,
